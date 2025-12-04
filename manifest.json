@@ -1,7 +1,7 @@
 {
   "name": "PWA Firebase Auth",
   "short_name": "PWAAuth",
-  "start_url": "/index.html",
+  "start_url": "/PwaFirebase/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0a74da",
