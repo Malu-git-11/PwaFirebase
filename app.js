@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
 import FirebaseAuthService from "./authService.js";
 
+// CONFIG FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyAQfLHIjFd6nmfUCsBD11s3n_9ZBK5AF-w",
   authDomain: "pwa-pam.firebaseapp.com",
@@ -12,24 +13,48 @@ const firebaseConfig = {
   measurementId: "G-7LPERFZPGM"
 };
 
-// Inicializar Firebase
+// Inicializa Firebase
 const fbApp = initializeApp(firebaseConfig);
 getAnalytics(fbApp);
 
 const authService = new FirebaseAuthService(fbApp);
 
-// Captura do formulário
-document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+// CADASTRO
+const formCadastro = document.getElementById("cadastroForm");
 
-  const email = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
+if (formCadastro) {
+  formCadastro.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const resultado = await authService.criarUsuarioComEmailESenha(email, senha);
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
 
-  if (resultado.sucesso) {
-    window.location.href = `profile.html?email=${encodeURIComponent(email)}`;
-  } else {
-    alert("Erro ao cadastrar usuário: " + resultado.erro.message);
-  }
-});
+    const resultado = await authService.criarUsuarioComEmailESenha(email, senha);
+
+    if (resultado.sucesso) {
+      window.location.href = `profile.html?email=${encodeURIComponent(email)}`;
+    } else {
+      alert("Erro ao cadastrar usuário: " + resultado.erro.message);
+    }
+  });
+}
+
+// LOGIN
+const formLogin = document.getElementById("loginForm");
+
+if (formLogin) {
+  formLogin.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    try {
+      const cred = await authService.login(email, senha);
+      window.location.href = `profile.html?email=${encodeURIComponent(email)}`;
+    } catch (erro) {
+      alert("Erro ao fazer login: " + erro.message);
+      console.error(erro);
+    }
+  });
+}
