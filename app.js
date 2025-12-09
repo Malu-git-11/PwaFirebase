@@ -58,3 +58,17 @@ if (formLogin) {
     }
   });
 }
+
+// LOGOUT
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await authService.logout();
+      window.location.href = "index.html";
+    } catch (erro) {
+      alert("Erro ao sair: " + erro.message);
+    }
+  });
+}
